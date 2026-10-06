@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Astral FFA | Store</title>
+
+<style>
+* {
+box-sizing: border-box;
+margin: 0;
+padding: 0;
+}
+
+body {
+font-family: Arial, Helvetica, sans-serif;
+background:
+radial-gradient(circle at top, #101d45 0%, #070a14 45%, #050509 100%);
+color: white;
+min-height: 100vh;
+}
+
+/* NAVBAR */
+
+nav {
+height: 75px;
+display: flex;
+align-items: center;
+justify-content: space-between;
+padding: 0 7%;
+background: rgba(5, 7, 15, 0.9);
+border-bottom: 1px solid #182a59;
+position: sticky;
+top: 0;
+z-index: 100;
+backdrop-filter: blur(10px);
+}
+
+.logo {
+font-size: 25px;
+font-weight: 900;
+letter-spacing: 2px;
+}
+
+.logo span {
+color: #b7192e;
+}
+
+.server-status {
+font-size: 13px;
+color: #aeb9d8;
+}
+
+.status-dot {
+display: inline-block;
+width: 9px;
+height: 9px;
+background: #32d583;
+border-radius: 50%;
+margin-right: 7px;
+box-shadow: 0 0 10px #32d583;
+}
+
+/* HERO */
+
+.hero {
+text-align: center;
+padding: 90px 20px 65px;
+}
+
+.hero h1 {
+font-size: clamp(48px, 9vw, 95px);
+font-weight: 1000;
+letter-spacing: 8px;
+text-transform: uppercase;
+text-shadow:
+0 0 25px rgba(33, 79, 180, 0.6),
+0 0 45px rgba(183, 25, 46, 0.25);
+}
+
+.hero h1 span {
+color: #b7192e;
+}
+
+.hero p {
+margin-top: 18px;
+color: #aeb9d8;
+font-size: 17px;
+}
+
+.ip-box {
+display: inline-block;
+margin-top: 30px;
+padding: 13px 22px;
+border: 1px solid #263d78;
+border-radius: 8px;
+background: rgba(12, 23, 52, 0.8);
+color: #dce5ff;
+cursor: pointer;
+transition: 0.2s;
+}
+
+.ip-box:hover {
+border-color: #b7192e;
+transform: translateY(-2px);
+}
+
+/* STORE */
+
+.store {
+width: min(1150px, 90%);
+margin: auto;
+padding-bottom: 80px;
+}
+
+.section-title {
+text-align: center;
+margin-bottom: 35px;
+}
+
+.section-title h2 {
+font-size: 34px;
+text-transform: uppercase;
+letter-spacing: 3px;
+}
+
+.section-title p {
+margin-top: 10px;
+color: #8490ae;
+}
+
+.products {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+gap: 20px;
+}
+
+.card {
+position: relative;
+background:
+linear-gradient(145deg, rgba(17, 29, 61, 0.96), rgba(11, 12, 21, 0.98));
+border: 1px solid #1e3468;
+border-radius: 13px;
+padding: 28px;
+overflow: hidden;
+transition: 0.25s;
+}
+
+.card::before {
+content: "";
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 3px;
+background: linear-gradient(90deg, #183e8c, #b7192e);
+}
+
+.card:hover {
+transform: translateY(-7px);
+border-color: #3155a0;
+box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35);
+}
+
+.icon {
+font-size: 38px;
+margin-bottom: 17px;
+}
+
+.card h3 {
+font-size: 23px;
+margin-bottom: 8px;
+}
+
+.card p {
+color: #8995b4;
+min-height: 40px;
+font-size: 14px;
+}
+
+.price {
+font-size: 30px;
+font-weight: 900;
+margin: 22px 0;
+}
+
+.price span {
+font-size: 14px;
+color: #8995b4;
+font-weight: normal;
+}
+
+.buy-button {
+width: 100%;
+padding: 13px;
+border: none;
+border-radius: 7px;
+background: linear-gradient(90deg, #173d8c, #8e172b);
+color: white;
+font-size: 15px;
+font-weight: bold;
+cursor: pointer;
+transition: 0.2s;
+}
+
+.buy-button:hover {
+filter: brightness(1.25);
+transform: scale(1.02);
+}
+
+/* PAYMENT MESSAGE */
+
+.payment-box {
+display: none;
+position: fixed;
+inset: 0;
+background: rgba(0, 0, 0, 0.75);
+z-index: 200;
+align-items: center;
+justify-content: center;
+padding: 20px;
+}
+
+.payment-content {
+width: min(450px, 100%);
+background: #0b1020;
+border: 1px solid #294785;
+border-radius: 15px;
+padding: 30px;
+text-align: center;
+box-shadow: 0 20px 60px black;
+}
+
+.payment-content h2 {
+margin-bottom: 12px;
+}
+
+.payment-content p {
+color: #9ba7c4;
+line-height: 1.5;
+margin-bottom: 22px;
+}
+
+.close-button {
+background: #20283b;
+border: none;
+color: white;
+padding: 11px 25px;
+border-radius: 6px;
+cursor: pointer;
+}
+
+/* FOOTER */
+
+footer {
+border-top: 1px solid #182544;
+padding: 30px 20px;
+text-align: center;
+color: #68738e;
+font-size: 13px;
+}
+
+footer strong {
+color: #9aa8c7;
+}
+
+@media (max-width: 600px) {
+nav {
+padding: 0 20px;
+}
+
+.server-status {
+display: none;
+}
+
+.hero {
+padding-top: 65px;
+}
+
+.hero h1 {
+letter-spacing: 4px;
+}
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVIGATION -->
+
+<nav>
+<div class="logo">
+ASTRAL <span>FFA</span>
+</div>
+
+<div class="server-status">
+<span class="status-dot"></span>
+Minecraft Server
+</div>
+</nav>
+
+
+<!-- HERO -->
+
+<section class="hero">
+
+<h1>ASTRAL <span>FFA</span></h1>
+
+<p>
+Dominate the battlefield. Choose your power.
+</p>
+
+<div class="ip-box" onclick="copyIP()">
+⚔️ n-nyc.folium.host:25396
+<br>
+<small>Click to copy IP</small>
+</div>
+
+</section>
+
+
+<!-- STORE -->
+
+<main class="store">
+
+<div class="section-title">
+<h2>Store</h2>
+<p>Upgrade your experience on Astral FFA.</p>
+</div>
+
+
+<div class="products">
+
+<!-- EVERY RANK + KIT -->
+
+<div class="card">
+<div class="icon">👑</div>
+
+<h3>Every Rank + Kit</h3>
+
+<p>
+Get every available rank and kit on Astral FFA.
+</p>
+
+<div class="price">
+€50 <span>EUR</span>
+</div>
+
+<button class="buy-button"
+onclick="buy('Every Rank + Kit', '50')">
+BUY NOW
+</button>
+</div>
+
+
+<!-- NIGHTFALL -->
+
+<div class="card">
+<div class="icon">🌑</div>
+
+<h3>Nightfall</h3>
+
+<p>
+Become one of the strongest players on the server.
+</p>
+
+<div class="price">
+€20 <span>EUR</span>
+</div>
+
+<button class="buy-button"
+onclick="buy('Nightfall', '20')">
+BUY NOW
+</button>
+</div>
+
+
+<!-- BLOODLUST -->
+
+<div class="card">
+<div class="icon">🩸</div>
+
+<h3>BloodLust</h3>
+
+<p>
+Unleash the BloodLust rank.
+</p>
+
+<div class="price">
+€15 <span>EUR</span>
+</div>
+
+<button class="buy-button"
+onclick="buy('BloodLust', '15')">
+BUY NOW
+</button>
+</div>
+
+
+<!-- SHADOWBLADE -->
+
+<div class="card">
+<div class="icon">⚔️</div>
+
+<h3>ShadowBlade</h3>
+
+<p>
+Strike from the shadows.
+</p>
+
+<div class="price">
+€15 <span>EUR</span>
+</div>
+
+<button class="buy-button"
+onclick="buy('ShadowBlade', '15')">
+BUY NOW
+</button>
+</div>
+
+
+<!-- BONEBLADE -->
+
+<div class="card">
+<div class="icon">💀</div>
+
+<h3>Boneblade</h3>
+
+<p>
+Claim the Boneblade rank.
+</p>
+
+<div class="price">
+€10 <span>EUR</span>
+</div>
+
+<button class="buy-button"
+onclick="buy('Boneblade', '10')">
+BUY NOW
+</button>
+</div>
+
+
+<!-- HYPERION -->
+
+<div class="card">
+<div class="icon">⚡</div>
+
+<h3>Hyperion</h3>
+
+<p>
+Take your power to the next level.
+</p>
+
+<div class="price">
+€10 <span>EUR</span>
+</div>
+
+<button class="buy-button"
+onclick="buy('Hyperion', '10')">
+BUY NOW
+</button>
+</div>
+
+
+<!-- NIGHTPIERCER -->
+
+<div class="card">
+<div class="icon">🏹</div>
+
+<h3>Nightpiercer</h3>
+
+<p>
+Pierce through the darkness.
+</p>
+
+<div class="price">
+€10 <span>EUR</span>
+</div>
+
+<button class="buy-button"
+onclick="buy('Nightpiercer', '10')">
+BUY NOW
+</button>
+</div>
+
+</div>
+
+</main>
+
+
+<!-- PAYMENT POPUP -->
+
+<div class="payment-box" id="paymentBox">
+
+<div class="payment-content">
+
+<h2 id="selectedProduct">
+Product
+</h2>
+
+<p id="selectedPrice">
+Price
+</p>
+
+<p>
+PayPal checkout will be connected here once
+the payment system is configured.
+</p>
+
+<button class="close-button"
+onclick="closePayment()">
+CLOSE
+</button>
+
+</div>
+
+</div>
+
+
+<!-- FOOTER -->
+
+<footer>
+<strong>ASTRAL FFA</strong>
+<br><br>
+Minecraft Server:
+n-nyc.folium.host:25396
+<br><br>
+© 2026 Astral FFA. All rights reserved.
+</footer>
+
+
+<script>
+
+/* COPY SERVER IP */
+
+function copyIP() {
+
+navigator.clipboard.writeText(
+"n-nyc.folium.host:25396"
+);
+
+alert("Server IP copied!");
+}
+
+
+/* BUY BUTTON */
+
+function buy(product, price) {
+
+document.getElementById("selectedProduct")
+.innerText = product;
+
+document.getElementById("selectedPrice")
+.innerText = "Price: €" + price;
+
+document.getElementById("paymentBox")
+.style.display = "flex";
+}
+
+
+/* CLOSE PAYMENT */
+
+function closePayment() {
+
+document.getElementById("paymentBox")
+.style.display = "none";
+}
+
+</script>
+
+</body>
+</html>
